@@ -2,8 +2,8 @@
 module.exports = {
   pathPrefix: "",
   siteMetadata: {
-    title: 'Query & Transact Advanced Query APIs (preview)',
-    description: "Query & Transact Advanced Query APIs (preview)",
+    title: 'Query & Transact Advanced APIs (preview)',
+    description: "Query & Transact Advanced APIs (preview)",
     logoUrl: 'https://raw.githubusercontent.com/open-rpc/design/master/icons/open-rpc-logo-noText/open-rpc-logo-noText%20(PNG)/256x256.png',
     primaryColor: '#3f51b5', //material-ui primary color
     secondaryColor: '#f50057', //material-ui secondary color
@@ -15,7 +15,7 @@ module.exports = {
         ignoreNextPrev: true
       },
       {
-        name: 'Advanced Query documentation',
+        name: 'Advanced APIs documentation',
         link: '/api-documentation',
         ignoreNextPrev: true
       },
@@ -30,7 +30,7 @@ module.exports = {
         ignoreNextPrev: true
       },
       {
-        name: 'Advanced Query tutorial',
+        name: 'Advanced APIs tutorial',
         link: '/tutorial',
         ignoreNextPrev: true
       }

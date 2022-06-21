@@ -10,9 +10,9 @@ const MyApp: React.FC = () => {
       <Grid container alignContent="center" alignItems="center" justify="center" direction="column">
         <img className="logo" alt="logo" src={"https://raw.githubusercontent.com/open-rpc/design/master/icons/open-rpc-logo-noText/open-rpc-logo-noText%20(PNG)/256x256.png"} style={{ paddingTop: "10%" }} />
         <br/>
-        <Typography variant="h1">Query & Transact Advanced Query APIs (preview)</Typography>
+        <Typography variant="h1">Query & Transact Advanced APIs (preview)</Typography>
         <Typography gutterBottom style={{ paddingTop: "100px", paddingBottom: "20px" }} variant="inherit">
-          This document describes the preview APIs for Query and Transact's new Advanced Query APIs. 
+          This document describes the preview APIs for Query and Transact's new Advanced APIs. 
         </Typography>
         <br/>
         <Button variant="contained" color="primary" href="/api-documentation">

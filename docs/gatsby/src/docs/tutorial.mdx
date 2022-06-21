@@ -4,9 +4,9 @@ title: tutorial
 
 import "../styles/markdown.css"
 
-# Advanced Query tutorial: Get transaction history for an Ethereum address
+# Advanced APIs tutorial: Get transaction history for an Ethereum address
 
-QT's Advanced Query APIs (preview) allow you to simplify and optimize common request types to make developing on the blockchain easier.
+Query and Transact (QT) Advanced APIs (preview) allow you to simplify and optimize common request types to make developing on the blockchain easier.
 
 In this tutorial you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
 
@@ -22,13 +22,13 @@ Why get address transaction history by an address?
 
 ## Create a project and get API keys
 
-To get started using the new Query & Transact Advanced Query preview APIs, sign in to your Coinbase Cloud account:
+To get started using the new Query & Transact Advanced APIs preview, sign in to your Coinbase Cloud account:
 
 <img src="/sign-in.png" alt="Sign in to Coinbase Cloud Console screen" width="60%" class="ImageBorder" />
 
 ### Create project
 
-After you sign in you'll be prompted to set up your first project. A project provides access to a shared node (Ethereum Mainnet only for preview) where you can make Ethereum calls and calls to the Advanced Query APIs. 
+After you sign in you'll be prompted to set up your first project. A project provides access to a shared node (Ethereum Mainnet only for preview) where you can make Ethereum calls and calls to the QT Advanced APIs. 
 
 Select the Free tier plan (Free-tier only for preview) and enter a name for your project.
 
@@ -53,7 +53,7 @@ Copy your endpoint, username, and password to your machine.
 
 ## Make a request and process the response
 
-Now, you will use the information you copied to make a request to the Advanced Query APIs.
+Now, you will use the information you copied to make a request to the Advanced APIs.
 
 ### Make request
 
@@ -280,4 +280,4 @@ cat response.json | jq '.result.blocks[].transactions[] | {to: .to, value: .valu
 
 Now we can see what addresses our input address has been sending transactions to and the value of those transactions. 
 
-You now know how to get transaction history for a given Ethereum address! From here, you can process more information from your response or check out other [Advanced Query APIs]((https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/)).
+You now know how to get transaction history for a given Ethereum address! From here, you can process more information from your response or check out other [Advanced APIs]((https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/)).
