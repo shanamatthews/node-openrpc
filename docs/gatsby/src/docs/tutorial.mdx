@@ -6,11 +6,11 @@ import "../styles/markdown.css"
 
 # Advanced APIs tutorial: Get transaction history for an Ethereum address
 
-Query and Transact (QT) Advanced APIs (preview) allow you to simplify and optimize common request types to make developing on the blockchain easier.
+Query and Transact (QT) Advanced APIs (preview) allow you to simplify and optimize common types of requests to make developing on the blockchain easier.
 
-In this tutorial you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
+In this tutorial you will get the full transaction history for a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
 
-Why get address transaction history by an address?
+Why get address transaction history?
 - Display a user's full transaction history
 - Query an address's transactions filtered by smart contract interactions 
 - Analyze a user's historical profit and loss
@@ -30,7 +30,7 @@ To get started using the new Query & Transact Advanced APIs preview, sign in to 
 
 After you sign in you'll be prompted to set up your first project. A project provides access to a shared node (Ethereum Mainnet only for preview) where you can make Ethereum calls and calls to the QT Advanced APIs. 
 
-Select the Free tier plan (Free-tier only for preview) and enter a name for your project.
+Select the free tier plan (free-tier only for preview) and enter a name for your project.
 
 <img src="/create-project.png" alt="Create a project screen" width="60%" class="ImageBorder" />
 
@@ -71,7 +71,6 @@ curl https://868605ce-acde-424e-800c-55ab87808268.ethereum.bison.run/ \
   "params": {
     "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
     "blockStart": 14431488,
-    "blockEnd": 14431489,
     "addressFilter": "SENDER",
     "blockchain": "Ethereum",
     "network":"Mainnet"
@@ -87,7 +86,6 @@ This call to `getTransactionsByAddress` specifies:
 |-|-|-|
 |`address`|`"0x3cd751e6b0078be393132286c442345e5dc49699"`|the Ethereum address you're retrieving transactions for|
 |`blockStart`|`14431488`|the block number to start scanning for transactions|
-|`blockEnd`|`14431489`|the block number to stop scanning for transactions. Optional, defaults the the latest block|
 |`addressFilter`|`"SENDER"`|filters returned transactions to sender or reciever if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
 |`blockchain`|`"Ethereum"`|Ethereum-only in preview. Optional, defaults to `"Ethereum"`|
 |`network`|`"Mainnet"`|Mainnet-only in preview. Optional, defaults to `"Mainnet"`|
@@ -102,50 +100,70 @@ You should get a JSON response back that looks similar to this:
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "blockStart": 14431488,
-    "blockEnd": 14431489,
+    "blockStart": 15129446,
+    "blockEnd": 15130358,
     "blocks": [
       {
-        "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
-        "blockNumber": 14431489,
-        "blockTimestamp": 1647889630,
+        "blockHash": "0xa63a4f17422a027dbe1cef4a3be86f3b07bbb3496176112f86c84dd6b980291d",
+        "blockNumber": 15130347,
+        "blockTimestamp": 1657661979,
         "transactions": [
           {
-            "transactionHash": "0x07160e2164087a3812abbe5e74109be176b0650bbe4be44f4e280fe3ee221a6d",
+            "transactionHash": "0xbdaab02f520a956d56e1bb9c7e5763f41901e3169d7fe7f8e3d6be9c58cf3802",
             "transactionIndex": 61,
-            "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
-            "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
-            "value": "157704540000000000",
+            "from": "0xfdd0bccf06f2ef93d5c3633332f054e9e2f6c4bd",
+            "to": "0x3cd751e6b0078be393132286c442345e5dc49699",
+            "value": "5998105257941472000",
             "gasLimit": 21000,
-            "gasPrice": 35105275699,
+            "gasPrice": 32449188742,
             "gasUsed": 21000,
-            "status": "1",
+            "status": "Success",
             "input": "0x",
-            "nonce": 6843177,
-            "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
-            "blockNumber": 14431489,
-            "blockTimestamp": 1647889630,
-            "internalTransactions": [
-              {
-                "traceType": "CALL",
-                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
-                "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
-                "value": "157704540000000000"
-              }
-            ]
+            "nonce": 1,
+            "blockHash": "0xa63a4f17422a027dbe1cef4a3be86f3b07bbb3496176112f86c84dd6b980291d",
+            "blockNumber": 15130347,
+            "blockTimestamp": 1657661979
           },
           {
-            "...": "output omitted"
+            "...": "output truncated."
           }
         ]
       },
       {
-        "...": "output omitted"
+        "blockHash": "0xabf44221f919aa58e8f4163308c469c879b256d326240cd5da8edc934d2af483",
+        "blockNumber": 15130334,
+        "blockTimestamp": 1657661803,
+        "transactions": [
+          {
+            "transactionHash": "0xf28f3447db13ff90ef06026bd90269fc55f7fc196ecdb078b46177302a51243f",
+            "transactionIndex": 43,
+            "from": "0x414737976071e65a4b8b9717bb4f9fa089f97ec4",
+            "to": "0x3cd751e6b0078be393132286c442345e5dc49699",
+            "value": "4296540070000000000",
+            "gasLimit": 21000,
+            "gasPrice": 35886999241,
+            "gasUsed": 21000,
+            "status": "Success",
+            "input": "0x",
+            "blockHash": "0xabf44221f919aa58e8f4163308c469c879b256d326240cd5da8edc934d2af483",
+            "blockNumber": 15130334,
+            "blockTimestamp": 1657661803
+          },
+          {
+            "...": "output truncated."
+          }
+        ]
+      },
+      {
+        "...": "output truncated."
       }
     ]
   }
 }
 ```
+
+If you were to scroll through the full response in your console and count the transactions, you'd see that we're returning exactly 1000 transactions from this call. 
+This is because 
 
 ### Understand the response
 
