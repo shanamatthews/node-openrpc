@@ -70,8 +70,9 @@ curl https://868605ce-acde-424e-800c-55ab87808268.ethereum.bison.run/ \
   "method": "coinbaseCloud_getTransactionsByAddress",
   "params": {
     "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
-    "blockStart": 14431488,
-    "addressFilter": "SENDER",
+    "blockStart": 15132913,
+    "blockEnd": 15135958,
+    "addressFilter": "RECEIVER_ONLY",
     "blockchain": "Ethereum",
     "network":"Mainnet"
   },
@@ -86,7 +87,8 @@ This call to `getTransactionsByAddress` specifies:
 |-|-|-|
 |`address`|`"0x3cd751e6b0078be393132286c442345e5dc49699"`|the Ethereum address you're retrieving transactions for|
 |`blockStart`|`14431488`|the block number to start scanning for transactions|
-|`addressFilter`|`"SENDER"`|filters returned transactions to sender or reciever if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
+|`blockEnd`|`15135958`|the block number to stop scanning for transactions. Optional, defaults to the latest block.|
+|`addressFilter`|`"RECEIVER_ONLY"`|filters returned transactions to sender or reciever if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
 |`blockchain`|`"Ethereum"`|Ethereum-only in preview. Optional, defaults to `"Ethereum"`|
 |`network`|`"Mainnet"`|Mainnet-only in preview. Optional, defaults to `"Mainnet"`|
 
@@ -100,29 +102,29 @@ You should get a JSON response back that looks similar to this:
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "blockStart": 15129446,
-    "blockEnd": 15130358,
+    "blockStart": 15132927,
+    "blockEnd": 15135958,
     "blocks": [
       {
-        "blockHash": "0xa63a4f17422a027dbe1cef4a3be86f3b07bbb3496176112f86c84dd6b980291d",
-        "blockNumber": 15130347,
-        "blockTimestamp": 1657661979,
+        "blockHash": "0x9a44ddd3db03241b18ca6025283df48e04757a0832f9ce9a00a963925e3f427e",
+        "blockNumber": 15135782,
+        "blockTimestamp": 1657735602,
         "transactions": [
           {
-            "transactionHash": "0xbdaab02f520a956d56e1bb9c7e5763f41901e3169d7fe7f8e3d6be9c58cf3802",
-            "transactionIndex": 61,
-            "from": "0xfdd0bccf06f2ef93d5c3633332f054e9e2f6c4bd",
+            "transactionHash": "0x2b8f126151394b6da53814688968a2da4db23e6be01ef580364890fb70302b19",
+            "transactionIndex": 85,
+            "from": "0xedc7001e99a37c3d23b5f7974f837387e09f9c93",
             "to": "0x3cd751e6b0078be393132286c442345e5dc49699",
-            "value": "5998105257941472000",
+            "value": "1399996605950391750000",
             "gasLimit": 21000,
-            "gasPrice": 32449188742,
+            "gasPrice": 24348588465,
             "gasUsed": 21000,
             "status": "Success",
             "input": "0x",
-            "nonce": 1,
-            "blockHash": "0xa63a4f17422a027dbe1cef4a3be86f3b07bbb3496176112f86c84dd6b980291d",
-            "blockNumber": 15130347,
-            "blockTimestamp": 1657661979
+            "nonce": 77972,
+            "blockHash": "0x9a44ddd3db03241b18ca6025283df48e04757a0832f9ce9a00a963925e3f427e",
+            "blockNumber": 15135782,
+            "blockTimestamp": 1657735602
           },
           {
             "...": "output truncated."
@@ -130,24 +132,25 @@ You should get a JSON response back that looks similar to this:
         ]
       },
       {
-        "blockHash": "0xabf44221f919aa58e8f4163308c469c879b256d326240cd5da8edc934d2af483",
-        "blockNumber": 15130334,
-        "blockTimestamp": 1657661803,
+        "blockHash": "0x2a8d0c84e33d00eba7a0e102933ad7d6869d1a16511b3d1df9f0e31f15feccd2",
+        "blockNumber": 15135767,
+        "blockTimestamp": 1657735425,
         "transactions": [
           {
-            "transactionHash": "0xf28f3447db13ff90ef06026bd90269fc55f7fc196ecdb078b46177302a51243f",
-            "transactionIndex": 43,
-            "from": "0x414737976071e65a4b8b9717bb4f9fa089f97ec4",
+            "transactionHash": "0xc2b687b8115b631e8ca55e56b220c586841210a784f394a02c125b4759c3dfaf",
+            "transactionIndex": 245,
+            "from": "0x21079d0b730dc3b3b2888a7fe34ad59bce07d3da",
             "to": "0x3cd751e6b0078be393132286c442345e5dc49699",
-            "value": "4296540070000000000",
+            "value": "1829259319254748000",
             "gasLimit": 21000,
-            "gasPrice": 35886999241,
+            "gasPrice": 21437997865,
             "gasUsed": 21000,
             "status": "Success",
             "input": "0x",
-            "blockHash": "0xabf44221f919aa58e8f4163308c469c879b256d326240cd5da8edc934d2af483",
-            "blockNumber": 15130334,
-            "blockTimestamp": 1657661803
+            "nonce": 17,
+            "blockHash": "0x2a8d0c84e33d00eba7a0e102933ad7d6869d1a16511b3d1df9f0e31f15feccd2",
+            "blockNumber": 15135767,
+            "blockTimestamp": 1657735425
           },
           {
             "...": "output truncated."
@@ -162,20 +165,18 @@ You should get a JSON response back that looks similar to this:
 }
 ```
 
-If you were to scroll through the full response in your console and count the transactions, you'd see that we're returning exactly 1000 transactions from this call. 
-This is because 
 
 ### Understand the response
 
-This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block. Since we specified `"SENDER"`, the returned transactions will include only those which the specified address was the sender.
+This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block.
+Since we specified `"RECEIVER_ONLY"`, the returned transactions will include only those which the specified address was the recipient.
 
 Here is all the information returned from the call.
 
 - `blockStart`: the block number this response starts at
 - `blockEnd`: the block number this response ends at
-  - If >1000 transactions would be returned for the requested block range, this API will return 
-  - up to 1000 transactions in a smaller block range, specified in the result
-  - OR all the transactions in a single block if the number in that block > 1000
+  - If >1000 transactions would be returned for the requested block range, this API will return 1000+ transactions in a smaller block range (specified by `blockStart` and `blockEnd` in the result) such that all blocks returned are complete (i.e. contain all requested transactions)
+  - This is covered in more detail in the next section, "Handle pagination"
   - [See API docs](https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/) for more details on pagination
 - `blocks`: the list of blocks containing transactions:
   - `blockHash`: the block's hashed identifier
@@ -208,6 +209,14 @@ Here is all the information returned from the call.
     - `to`: destination address
     - `value`: for ERC-20, gives quantity of tokens transferred, for ERC-721 gives list of token IDs transferred
 
+
+### Handle pagination
+
+Note that in your API call, you requested transactions from block **15132913** to **15135958**, but the response only included blocks **15132927** to **15135958**.
+This is because the API response is paginated when there are more than 1000 transactions in the requested block range. 
+If you were to scroll through the full response in your console and count the transactions, you'll see over 1000 transactions returned from this call (1004 to be specific).
+
+To get the rest of the transactions, we'll need to note the returned block range, and make additional API calls to cover the rest of the desired bock range.
 
 ### Process the response
 
