@@ -218,6 +218,53 @@ If you were to scroll through the full response in your console and count the tr
 
 To get the rest of the transactions, we'll need to note the returned block range, and make additional API calls to cover the rest of the desired bock range.
 
+First, save the reponse from the previous API call in a file:
+
+```shell
+curl https://868605ce-acde-424e-800c-55ab87808268.ethereum.bison.run/ \
+  -u username:password \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "method": "coinbaseCloud_getTransactionsByAddress",
+  "params": {
+    "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+    "blockStart": 15132913,
+    "blockEnd": 15135958,
+    "addressFilter": "RECEIVER_ONLY",
+    "blockchain": "Ethereum",
+    "network":"Mainnet"
+  },
+  "id": 1,
+  "jsonrpc": "2.0"
+}' | jq > response1.json
+```
+
+Then, make a second API call to get the rest of the transactions:
+
+```shell
+curl https://868605ce-acde-424e-800c-55ab87808268.ethereum.bison.run/ \
+  -u username:password \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "method": "coinbaseCloud_getTransactionsByAddress",
+  "params": {
+    "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+    "blockStart": 15132913,
+    "blockEnd": 15132926,
+    "addressFilter": "RECEIVER_ONLY",
+    "blockchain": "Ethereum",
+    "network":"Mainnet"
+  },
+  "id": 1,
+  "jsonrpc": "2.0"
+}' | jq > response2.json
+```
+
+Both of these API calls pipe the response to a utility called `jq` to nicely format it before we save it to a file.
+We'll cover `jq` further in the next section.
+
 ### Process the response
 
 For a given purpose, we may only be interested in a small subset of this information. Let's use the command line utility, `jq` to get the recipient of each top level transaction.
