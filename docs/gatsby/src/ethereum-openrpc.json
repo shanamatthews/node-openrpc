@@ -215,6 +215,33 @@
       }
     },
     {
+      "name": "eth_getCode",
+      "summary": "Returns code at a given contract address",
+      "params": [
+        {
+          "name": "address",
+          "required": true,
+          "description": "The address of the contract",
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        {
+          "name": "blockNumber",
+          "description": "A BlockNumber of which the code existed",
+          "schema": {
+            "$ref": "#/components/schemas/BlockNumber"
+          }
+        }
+      ],
+      "result": {
+        "name": "bytes",
+        "schema": {
+          "$ref": "#/components/schemas/Bytes"
+        }
+      }
+    },
+    {
       "name": "eth_getBalance",
       "summary": "Returns Ether balance of a given or account or contract",
       "params": [
@@ -409,6 +436,32 @@
       }
     },
     {
+      "name": "eth_getTransactionCount",
+      "summary": "Returns the number of transactions sent from an address",
+      "params": [
+        {
+          "$ref": "#/components/contentDescriptors/Address"
+        },
+        {
+          "$ref": "#/components/contentDescriptors/BlockNumber"
+        }
+      ],
+      "result": {
+        "name": "transactionCount",
+        "schema": {
+          "title": "nonceOrNull",
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Nonce"
+            },
+            {
+              "$ref": "#/components/schemas/Null"
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "eth_getTransactionReceipt",
       "summary": "Returns the receipt information of a transaction by its hash.",
       "params": [
@@ -532,53 +585,6 @@
       }
     },
     {
-      "name": "eth_getWork TBD SHANA MAY REMOVE",
-      "summary": "Returns the hash of the current block, the seedHash, and the boundary condition to be met ('target').",
-      "params": [],
-      "result": {
-        "name": "work",
-        "schema": {
-          "title": "getWorkResults",
-          "type": "array",
-          "items": [
-            {
-              "$ref": "#/components/schemas/PowHash"
-            },
-            {
-              "$ref": "#/components/schemas/SeedHash"
-            },
-            {
-              "$ref": "#/components/schemas/Difficulty"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "eth_hashrate TBD SHANA MAY REMOVE",
-      "summary": "Returns the number of hashes per second that the node is mining with.",
-      "params": [],
-      "result": {
-        "name": "hashesPerSecond",
-        "description": "Integer of the number of hashes per second",
-        "schema": {
-          "$ref": "#/components/schemas/Integer"
-        }
-      }
-    },
-    {
-      "name": "eth_mining TBD SHANA MAY REMOVE",
-      "summary": "Returns true if client is actively mining new blocks.",
-      "params": [],
-      "result": {
-        "name": "mining",
-        "description": "Whether or not the client is mining",
-        "schema": {
-          "type": "boolean"
-        }
-      }
-    },
-    {
       "name": "eth_protocolVersion",
       "summary": "Returns the current ethereum protocol version.",
       "params": [],
@@ -612,61 +618,52 @@
       }
     },
     {
-      "name": "eth_submitWork TBD SHANA MAY REMOVE ",
-      "summary": "Used for submitting a proof-of-work solution.",
-      "params": [
-        {
-          "$ref": "#/components/contentDescriptors/Nonce"
-        },
-        {
-          "name": "powHash",
-          "required": true,
-          "schema": {
-            "$ref": "#/components/schemas/PowHash"
-          }
-        },
-        {
-          "name": "mixHash",
-          "required": true,
-          "schema": {
-            "$ref": "#/components/schemas/MixHash"
-          }
-        }
-      ],
+      "name": "eth_syncing",
+      "summary": "Returns an object with data about the sync status or false.",
+      "params": [],
       "result": {
-        "name": "solutionValid",
-        "description": "returns true if the provided solution is valid, otherwise false.",
+        "name": "syncing",
         "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "submitWorkExample",
-          "params": [
+          "title": "isSyncingResult",
+          "oneOf": [
             {
-              "name": "nonceExample",
-              "description": "example of a number only used once",
-              "value": "0x0000000000000001"
+              "title": "syncingData",
+              "description": "An object with sync status data",
+              "type": "object",
+              "properties": {
+                "startingBlock": {
+                  "title": "syncingDataStartingBlock",
+                  "description": "Block at which the import started (will only be reset, after the sync reached his head)",
+                  "$ref": "#/components/schemas/Integer"
+                },
+                "currentBlock": {
+                  "title": "syncingDataCurrentBlock",
+                  "description": "The current block, same as eth_blockNumber",
+                  "$ref": "#/components/schemas/Integer"
+                },
+                "highestBlock": {
+                  "title": "syncingDataHighestBlock",
+                  "description": "The estimated highest block",
+                  "$ref": "#/components/schemas/Integer"
+                },
+                "knownStates": {
+                  "title": "syncingDataKnownStates",
+                  "description": "The known states",
+                  "$ref": "#/components/schemas/Integer"
+                },
+                "pulledStates": {
+                  "title": "syncingDataPulledStates",
+                  "description": "The pulled states",
+                  "$ref": "#/components/schemas/Integer"
+                }
+              }
             },
             {
-              "name": "powHashExample",
-              "description": "proof of work to submit",
-              "value": "0x6bf2cAE0dE3ec3ecA5E194a6C6e02cf42aADfe1C2c4Fff12E5D36C3Cf7297F22"
-            },
-            {
-              "name": "mixHashExample",
-              "description": "the mix digest example",
-              "value": "0xD1FE5700000000000000000000000000D1FE5700000000000000000000000000"
+              "type": "boolean"
             }
-          ],
-          "result": {
-            "name": "solutionInvalidExample",
-            "description": "this example should return `false` as it is not a valid pow to submit",
-            "value": false
-          }
+          ]
         }
-      ]
+      }
     }
   ],
   "components": {
