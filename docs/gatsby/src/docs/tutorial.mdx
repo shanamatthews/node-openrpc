@@ -23,7 +23,7 @@ Why get address transaction history?
 
 ## Create a project and get API keys
 
-To get started using the new Query & Transact Advanced APIs preview, sign in to your Coinbase Cloud account:
+To get started using the new Query & Transact Advanced APIs preview, [sign in to your Coinbase Cloud account](https://console.cloud.coinbase.com/):
 
 <img src="/sign-in.png" alt="Sign in to Coinbase Cloud Console screen" width="60%" class="ImageBorder" />
 
@@ -87,7 +87,7 @@ This call to `getTransactionsByAddress` specifies:
 |param|value|explanation|
 |-|-|-|
 |`address`|`"0x3cd751e6b0078be393132286c442345e5dc49699"`|the Ethereum address you're retrieving transactions for|
-|`blockStart`|`14431488`|the block number to start scanning for transactions|
+|`blockStart`|`15132913`|the block number to start scanning for transactions|
 |`blockEnd`|`15135958`|the block number to stop scanning for transactions. Optional, defaults to the latest block.|
 |`addressFilter`|`"RECEIVER_ONLY"`|filters returned transactions to sender or receiver if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
 |`blockchain`|`"Ethereum"`|Ethereum-only in preview. Optional, defaults to `"Ethereum"`|
@@ -171,44 +171,18 @@ You should get a JSON response back that looks similar to this:
 This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block.
 Since we specified `"RECEIVER_ONLY"`, the returned transactions will include only those which the specified address was the recipient.
 
-Here is all the information returned from the call.
+The response returns a lot of information, we will only cover the highlights here. See the [API docs](https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/) for full documentation of the response values. 
 
 - `blockStart`: the block number this response starts at
 - `blockEnd`: the block number this response ends at
   - If >1000 transactions would be returned for the requested block range, this API will return 1000+ transactions in a smaller block range (specified by `blockStart` and `blockEnd` in the result) such that all blocks returned are complete (i.e. contain all requested transactions)
   - This is covered in more detail in the next section, "Handle pagination"
-  - [See API docs](https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/) for more details on pagination
 - `blocks`: the list of blocks containing transactions:
-  - `blockHash`: the block's hashed identifier
-  - `blockNumber`: this specific block's number
-  - `blockTimestamp`: the date and time this block was mined
   - `transactions`: a list of relevant transactions in this block
-  - `transactionHash`: the transaction's identifying hash
-  - `transactionIndex`: the transaction's index in the block
-  - `from`: origin address
-  - `to`: destination address
-  - `value`: value in native blockchain currency
-  - `gasLimit`: the transaction's gas set limit
-  - `gasPrice`: the transaction's price per unit of gas
-  - `gasUsed`: the amount of gas actually used for the transaction
-  - `status`: "1" for success, "0" for failure
-  - `input`: input data to the transaction
-  - `nonce`: the transaction's nonce
-  - `blockHash`: the block's hashed identifier (same data as in `block` object)
-  - `blockNumber`: this specific block's number (same data as in `block` object)
-  - `blockTimestamp`: the date and time this block was mined (same data as in `block` object)
-  - `internalTransactions`: associated messages carried out by a smart contract, if any
-    - `traceType`: type of internal transaction, e.g. `CREATE`, `CALL`, `CALLCODE`, `DELEGATECALL`, `SUICIDE`
     - `from`: origin address
     - `to`: destination address
     - `value`: value in native blockchain currency
-  - `tokenTransfers`: associated token transfers, if any
-    - `tokenAddress`: address location for the token contract
-    - `tokenType`: "erc20" or "erc721" (ERC-20 and ERC-721 are the only types support for preview)
-    - `from`: origin address
-    - `to`: destination address
-    - `value`: for ERC-20, gives quantity of tokens transferred, for ERC-721 gives list of token IDs transferred
-
+    - `status`: "Success", "Failure", or "Unknown"
 
 ### Handle pagination
 
