@@ -2104,7 +2104,7 @@
           },
           "status": {
             "type": "string",
-            "description": "\"1\": Success\", \"0\": Fail, Other return codes: Unknown"
+            "description": "\"1\": Success, \"0\": Fail, Other return codes: Unknown"
           },
           "input": {
             "type": "string",
