@@ -1652,10 +1652,6 @@
       "RateLimitError": {
         "code": 429,
         "message": "too many requests"
-      },
-      "Other errors":{
-        "code": 429,
-        "message": "too many requests"
       }
     },
     "schemas": {
