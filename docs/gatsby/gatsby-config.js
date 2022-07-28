@@ -10,11 +10,6 @@ module.exports = {
     author: '',
     menuLinks: [
       {
-        name: 'home',
-        link: '/',
-        ignoreNextPrev: true
-      },
-      {
         name: 'Advanced APIs documentation',
         link: '/api-documentation',
         ignoreNextPrev: true
