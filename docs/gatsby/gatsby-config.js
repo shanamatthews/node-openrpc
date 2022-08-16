@@ -18,16 +18,6 @@ module.exports = {
         name: 'Ethereum documentation',
         link: '/ethereum-documentation',
         ignoreNextPrev: true
-      },
-      {
-        name: 'Sample API calls',
-        link: '/sample-calls',
-        ignoreNextPrev: true
-      },
-      {
-        name: 'Advanced APIs tutorial',
-        link: '/tutorial',
-        ignoreNextPrev: true
       }
     ],
     footerLinks: [
