@@ -176,7 +176,7 @@
       "name": "coinbaseCloud_getSingleBalance",
       "paramStructure": "either",
       "summary": "Get balance for a single token and a single account address",
-      "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller should expect low latency from this API compared to a more heavy weight GetBalances. \n\n **Use cases:** \n - Low latency call to get the latest balance for a single token for a single address. \n - Get balances for an account address or a contract",
+      "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller can expect low latency from this API compared to the getBalances API. \n\n **Use cases:** \n - Get balances for an account address or a contract",
       "tags": [
         {
           "name": "Balances"
@@ -213,7 +213,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -257,7 +257,7 @@
       "examples": [
         {
           "name": "USDC (ERC-20)",
-          "description": "Retrieve balances for USDC. Note that this example shows how Advanced APIs normalize input and accept long, mixed-case address. [Sample CURL call](/sample-calls#getSingleBalanceERC20)",
+          "description": "Retrieve balances for USDC. Note that this example shows how Advanced APIs normalize input and accept a long, mixed-case address. [Sample CURL call](/sample-calls#getSingleBalanceERC20)",
           "params": [
             {
               "name": "address",
@@ -361,7 +361,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -448,7 +448,7 @@
       "name": "coinbaseCloud_getTransactionsByAddress",
       "paramStructure": "either",
       "summary": "Get transactions for a given address.",
-      "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Transactions are returned in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Use cases:** \n - Get all the transactions (external and internal) for a given address \n - Get all token transfers for a given address \n - Get transactions and transfers in specific block ranges \n - Filter transactions by send and/or receive \n\n\n **Constraints:** \n\n - The API returns up to 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n - Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n - If there are more than 1000 relevant transactions, the API will return at least 1000 transactions. In order to deliver a full block, it may return > 1000 transactions. \n - Transactions are returned in reverse chronological order. \n\n\nExample: A client wants to get all the transactions from genesis to the latest block. Assume 100 is the latest block: \n\n|API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100. \n\n Note that in this example, the first API call only returns 2 blocks because those blocks contained 1000+ transactions. In the second API call we return 63 blocks to get 1000+ transactions.",
+      "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Transactions are returned in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Use cases:** \n - Get all the transactions (external and internal) for a given address \n - Get all token transfers for a given address \n - Get transactions and transfers in specific block ranges \n - Filter transactions by send and/or receive \n\n\n **Constraints:** \n\n - The API returns up to 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n - Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n - If there are more than 1000 relevant transactions, the API will return at least 1000 transactions, including internal transactions. In order to deliver a full block, it may return > 1000 transactions. \n - Transactions are returned in reverse chronological order. \n\n\nExample: A client wants to get all the transactions from genesis to the latest block. Assume 100 is the latest block: \n\n|API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100. \n\n Note that in this example, the first API call only returns 2 blocks because those blocks contained 1000+ transactions. In the second API call we return 63 blocks to get 1000+ transactions.",
       "tags": [
         {
           "name": "Transactions"
@@ -484,7 +484,7 @@
         {
           "name": "addressFilter",
           "summary": "Filter transactions by",
-          "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER.",
+          "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER if no param provided. Providing strings other than 'SENDER_ONLY', 'RECEIVER_ONLY', or 'SENDER_OR_RECEIVER' will result in a `BadRequestError`.",
           "required": false,
           "schema": {
             "type": "string"
@@ -502,7 +502,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -678,7 +678,7 @@
         {
           "name": "blockStart",
           "summary": "Start of block range to scan for transactions",
-          "description": "",
+          "description": "Inclusive of specified block.",
           "required": true,
           "schema": {
             "type": "integer"
@@ -686,8 +686,8 @@
         },
         {
           "name": "blockEnd",
-          "summary": "End of block range to scan for transactions",
-          "description": "Defaults to latest. See **Pagination support** for more information",
+          "summary": "End of block range to scan for transactions.",
+          "description": "Inclusive of specified block. Defaults to latest. See **Pagination support** for more information",
           "required": false,
           "schema": {
             "type": "integer"
@@ -696,7 +696,7 @@
         {
           "name": "addressFilter",
           "summary": "Filter transactions by",
-          "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER.",
+          "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER if no param provided. Providing strings other than 'SENDER_ONLY', 'RECEIVER_ONLY', or 'SENDER_OR_RECEIVER' will result in a `BadRequestError`.",
           "required": false,
           "schema": {
             "type": "string"
@@ -714,7 +714,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -961,8 +961,8 @@
     {
       "name": "coinbaseCloud_getTransactionByHash",
       "paramStructure": "either",
-      "summary": "Get transfers initiated by a transaction",
-      "description": "Returns all transfers caused by the transaction identified by the input transaction hash. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
+      "summary": "Get details about a transaction.",
+      "description": "Get detailed information about a transaction, including transfers caused by the transaction. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
       "tags": [
         {
           "name": "Transactions"
@@ -989,7 +989,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -1250,7 +1250,7 @@
       "name": "coinbaseCloud_getTokenStandardEvents",
       "paramStructure": "either",
       "summary": "Get events triggered by the given token contract",
-      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\nDifferent event types will return different event data:\n\n |Event type|Event data|Signature|Signature hash|\n|-|-|-|-|\n|Transfer (ERC-20 or ERC-721)|Returns `from` address, `to` address, and `data`: value of transfer for ERC-20, Token ID transferred for ERC-721|Transfer(address,address,unit256)|0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|ApprovalForAll (ERC-721)|Returns `owner` address, `operator` address, and `approved`: <bool>|ApprovalForAll(address,address,bool)|0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|Other|Returns `event`: input data to the transaction and `topics`: where `topics[0]` is the hashed event signature and other entries are relevant addresses.|Not included|Varies based on event type| \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
+      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\nDifferent event types will return different event data:\n\n |Event type|Event data|Signature|Signature hash|\n|-|-|-|-|\n|Transfer (ERC-20 or ERC-721)|Returns `from` address, `to` address, and `data`: value of transfer for ERC-20, Token ID transferred for ERC-721|Transfer(address,address,unit256)|0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|ApprovalForAll (ERC-721)|Returns `owner` address, `operator` address, and `approved`: <bool>|ApprovalForAll(address,address,bool)|0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|Other|Returns `event`: input data to the transaction and `topics`: where `topics[0]` is the hashed event signature and other entries are relevant addresses.|Not included|Varies based on event type| \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in an easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
           "name": "Contracts"
@@ -1305,7 +1305,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -1522,7 +1522,7 @@
         {
           "name": "network",
           "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
           "required": false,
           "schema": {
             "type": "string"
@@ -1714,7 +1714,7 @@
       },
       "BlockHeight": {
         "name": "blockHeight",
-        "description": "Block range in which the balances were computed. Start is genesis.",
+        "description": "The end block in which the balances were computed. The start block is genesis.",
         "schema": {
           "type": "integer"
         }
